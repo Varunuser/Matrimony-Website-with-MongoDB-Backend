@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MatchMate - Registration</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #ffe5ec 0%, #fff0f5 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: #faf9f6;
+      padding: 38px 38px 28px;
+      border-radius: 18px;
+      box-shadow: 0 10px 24px 0px rgba(206, 53, 102, 0.11), 0 2px 4px 0 rgba(63, 43, 150, 0.08);
+      width: 396px;
+      border: 1.5px solid #fff3f8;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 26px;
+      color: #ce3566;
+      font-weight: 700;
+      font-size: 2.1rem;
+      letter-spacing: 1px;
+    }
+
+    .progressbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      counter-reset: step;
+    }
+
+    .progressbar li {
+      list-style: none;
+      width: 100%;
+      position: relative;
+      text-align: center;
+      color: #b5b5b5;
+      font-size: 13px;
+      font-weight: 600;
+      padding-bottom: 2px;
+      transition: color 0.3s;
+    }
+
+    .progressbar li:before {
+      counter-increment: step;
+      content: counter(step);
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border: 2px solid #ffe1ed;
+      display: block;
+      text-align: center;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      background-color: #fff9fa;
+      color: #ce3566;
+      font-weight: bold;
+      font-size: 15px;
+      transition: border 0.3s, background 0.3s;
+    }
+
+    .progressbar li:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background-color: #ffe1ed;
+      top: 15px;
+      left: -50%;
+      z-index: -1;
+      transition: background 0.3s;
+    }
+    .progressbar li:first-child:after { content: none; }
+
+    .progressbar li.active { color: #ce3566; }
+    .progressbar li.active:before {
+      border-color: #ce3566;
+      background: #ce3566;
+      color: #fff;
+    }
+    .progressbar li.active + li:after {
+      background-color: #ce3566;
+    }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 600;
+      color: #922557;
+      letter-spacing: 0.15px;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 13px;
+      margin-top: 7px;
+      font-size: 15px;
+      border: 1.5px solid #ffe1ed;
+      border-radius: 8px;
+      background: #fffafa;
+      color: #50224f;
+      transition: border-color 0.25s, box-shadow 0.23s;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+    input:focus, select:focus {
+      border-color: #ce3566;
+      box-shadow: 0 0 0px 2px rgba(206,53,102,0.08);
+      outline: none;
+    }
+
+    .checkbox-group {
+      margin-top: 10px;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+      font-weight: 500;
+      color: #50224f;
+    }
+    .checkbox-group input {
+      margin-right: 8px;
+      width: auto;
+    }
+
+    .buttons {
+      margin-top: 27px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 11px 22px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+      transition: background 0.24s, transform 0.17s;
+      box-shadow: 0 2px 8px 0 rgba(206,53,102,.06);
+      font-family: inherit;
+      letter-spacing: 0.1px;
+    }
+    .next {
+      background: linear-gradient(90deg, #c62368 0%, #ea4d7b 100%);
+      color: #fff;
+    }
+    .next:hover {
+      background: linear-gradient(90deg, #ea4d7b 0%, #c62368 100%);
+      transform: scale(1.07);
+    }
+    .back {
+      background: #f2e8ee;
+      color: #ce3566;
+    }
+    .back:hover {
+      background: #fed4e2;
+      color: #7c2151;
+      transform: scale(1.07);
+    }
+    .submit {
+      margin-top: 18px;
+      width: 100%;
+      background: linear-gradient(90deg, #3a8fb7 0%, #06beb6 100%);
+      color: #fff;
+      letter-spacing: 0.11px;
+      font-size: 16px;
+      font-weight: 700;
+      box-shadow: 0 4px 18px 0 rgba(58, 143, 183, 0.09);
+    }
+    .submit:hover {
+      background: linear-gradient(90deg, #06beb6 0%, #3a8fb7 100%);
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 500px) {
+      .container { width: 97vw; padding: 14px 3vw 19px; }
+      h2 { font-size: 1.45rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>MatchMate Registration</h2>
+
+    <!-- Progress bar -->
+    <ul class="progressbar">
+      <li class="active">Basic</li>
+      <li>Details</li>
+      <li>Background</li>
+      <li>Location</li>
+      <li>Interests</li>
+    </ul>
+
+    <form action="dashboard.jsp" method="post">
+      <!-- Step 1 -->
+      <div class="step active">
+        <label>Name:</label>
+        <input type="text" name="name" required>
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        <div class="buttons">
+          <span></span>
+          <button type="button" class="next">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <label>Age:</label>
+        <input type="number" name="age" required>
+        <label>Gender:</label>
+        <select name="gender" required>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <div class="buttons">
+          <button type="button" class="back">Back</button>
+          <button type="button" class="next">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <label>Religion:</label>
+        <input type="text" name="religion">
+        <label>Profession:</label>
+        <input type="text" name="profession">
+        <div class="buttons">
+          <button type="button" class="back">Back</button>
+          <button type="button" class="next">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step">
+        <label>Location:</label>
+        <input type="text" name="location">
+        <label>Zodiac Sign:</label>
+        <select name="zodiac" required>
+          <option value="">Select</option>
+          <option>Aries</option>
+          <option>Taurus</option>
+          <option>Gemini</option>
+          <option>Cancer</option>
+          <option>Leo</option>
+          <option>Virgo</option>
+          <option>Libra</option>
+          <option>Scorpio</option>
+          <option>Sagittarius</option>
+          <option>Capricorn</option>
+          <option>Aquarius</option>
+          <option>Pisces</option>
+        </select>
+        <div class="buttons">
+          <button type="button" class="back">Back</button>
+          <button type="button" class="next">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step">
+        <label>Select Your Interests:</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="interests" value="Music"> Music</label>
+          <label><input type="checkbox" name="interests" value="Travel"> Travel</label>
+          <label><input type="checkbox" name="interests" value="Cooking"> Cooking</label>
+          <label><input type="checkbox" name="interests" value="Reading"> Reading</label>
+          <label><input type="checkbox" name="interests" value="Sports"> Sports</label>
+        </div>
+        <div class="buttons">
+          <button type="button" class="back">Back</button>
+        </div>
+        <button type="submit" class="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const steps = document.querySelectorAll('.step');
+    const nextBtns = document.querySelectorAll('.next');
+    const backBtns = document.querySelectorAll('.back');
+    const progress = document.querySelectorAll('.progressbar li');
+    let current = 0;
+
+    function updateProgress() {
+      progress.forEach((li, i) => {
+        if (i <= current) li.classList.add('active');
+        else li.classList.remove('active');
+      });
+    }
+
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (current < steps.length - 1) {
+          steps[current].classList.remove('active');
+          current++;
+          steps[current].classList.add('active');
+          updateProgress();
+        }
+      });
+    });
+
+    backBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (current > 0) {
+          steps[current].classList.remove('active');
+          current--;
+          steps[current].classList.add('active');
+          updateProgress();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
